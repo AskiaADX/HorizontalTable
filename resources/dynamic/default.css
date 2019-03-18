@@ -1,0 +1,618 @@
+{%
+Dim i1
+Dim rowQuestion
+Dim rowNumber = 1
+For i1 = 2 To 6
+    rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
+    If rowQuestion.Id <> DK Then
+        rowNumber = i1
+    Else
+        Break
+    EndIf
+Next i1
+Dim controlAlign
+If (CurrentADC.PropValue("controlAlign") = "center" ) Then
+    controlAlign = "0 auto"
+ElseIf (CurrentADC.PropValue("controlAlign") = "right" ) Then
+    controlAlign = "0 0 0 auto"
+Else
+    controlAlign = "0 auto 0 0"
+EndIf
+Dim firstColumnWidth = CurrentADC.PropValue("firstColumnWidth")
+Dim othersColumnWidth = ((100 - firstColumnWidth.ToNumber() ) / CurrentQuestion.ParentLoop.Answers.Count).Floor()
+%}
+#adc_{%= CurrentADC.InstanceId %} {
+	width: 100%;
+ 	max-width: {%= CurrentADC.PropValue("controlWidth") %};
+    margin: {%= controlAlign %};
+    {% If (CurrentADC.PropValue("dropShadow") = "yes" and CurrentADC.PropValue("stepByStep") = "no") Then %}
+    box-shadow: 2px 2px 2px rgba({%= Theme.BlackColor.ToRGB() %},.2);
+    {% EndIf %}
+}
+#adc_{%= CurrentADC.InstanceId %} .horizontaltable-cell {
+  border-top: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+  border-right: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+  border-bottom: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+  background-color: rgba({%= CurrentADC.PropValue("evenBgPrimaryColor").ToRGB() %},1);
+}
+
+{% If (CurrentADC.PropValue("showBorderColumn") = "yes") Then %}
+#adc_{%= CurrentADC.InstanceId %} .header-response-container:not(:last-child) {
+    border-bottom: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+}
+{% EndIf %}
+#adc_{%= CurrentADC.InstanceId %} .questioncaption {
+    border-right: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+}
+
+
+#adc_{%= CurrentADC.InstanceId %} .odd {
+  background-color: rgba({%= CurrentADC.PropValue("oddBgPrimaryColor").ToRGB() %},.1);
+  color: rgba({%= CurrentADC.PropValue("oddFontColor").ToRGBA() %});
+}
+#adc_{%= CurrentADC.InstanceId %} .horizontaltable-cell--head {
+  background-color: rgb({%= CurrentADC.PropValue("headBgPrimaryColor").ToRGB() %});
+  color: rgb({%= CurrentADC.PropValue("headFontColor").ToRGB() %});
+}
+{% If (CurrentADC.PropValue("useHeaderStyleFirstColumn") = "yes") Then %}
+#adc_{%= CurrentADC.InstanceId %} .horizontaltable-firstcolumn {
+  background-color: rgb({%= CurrentADC.PropValue("headBgPrimaryColor").ToRGB() %});
+  color: rgb({%= CurrentADC.PropValue("headFontColor").ToRGB() %});
+}
+{% EndIf %}
+
+#adc_{%= CurrentADC.InstanceId %} .horizontaltable-firstcolumn {
+    text-align: {%= CurrentADC.PropValue("firstColumnAlign") %};
+}
+#adc_{%= CurrentADC.InstanceId %} .horizontaltable-firstcolumn .questioncaption {
+    {% If (rowNumber = 1) Then %}
+    display: none;
+    {% Else %}
+    width: {%= 100 - CurrentADC.PropValue("firstColumnResponsesWidth").ToNumber() %}%;
+    {% EndIf %}
+}
+#adc_{%= CurrentADC.InstanceId %} .horizontaltable-firstcolumn .responsecaption {
+    {% If (rowNumber = 1) Then %}
+    width: 100%;
+    {% Else %}
+    width: {%= CurrentADC.PropValue("firstColumnResponsesWidth") %}%;
+    {% EndIf %}
+}
+
+{% If (CurrentADC.PropValue("useSlider") = "2") Then %}
+#adc_{%= CurrentADC.InstanceId %} input[type=number] {
+    display: none;
+}
+{% EndIf %}
+{% If (CurrentADC.PropValue("showTotal") = "0") Then %}
+#adc_{%= CurrentADC.InstanceId %} .sum-container,
+#adc_{%= CurrentADC.InstanceId %} .sum {
+    display: none;
+}
+{% EndIf %}
+{% If (CurrentADC.PropValue("hideFirstRow") = "1") Then %}
+#adc_{%= CurrentADC.InstanceId %} .horizontaltable-cell--head {
+    display: none;
+}
+{% EndIf %}
+@media screen and (max-width: {%= CurrentADC.PropValue("responsiveWidth") %}) {
+    #adc_{%= CurrentADC.InstanceId %} .horizontaltable-cell--head {
+        {% If (CurrentADC.PropValue("hideFirstRowResponsive") = "1") Then %}
+        display: none;
+        {% Else %}
+        display: block;
+        {% EndIf %}
+    }
+}
+
+  {% If ( CurrentADC.PropValue("responsesDirection") = "1" ) Then %}
+  #adc_{%= CurrentADC.InstanceId %} .closed .responses-container {
+  	display: inline-block;
+  }
+  {% EndIf %}
+  #adc_{%= CurrentADC.InstanceId %} .closed .response-container {
+      {% If ((CurrentADC.PropValue("responsesAlignement") = "left" or CurrentADC.PropValue("responsesAlignement") = "right") and CurrentADC.PropValue("responsesDirection") = "1" and CurrentADC.PropValue("respOnHeader") = "0") Then %}
+      text-align: {%= CurrentADC.PropValue("responsesAlignement") %};
+      {% EndIf %}
+      {% If (CurrentADC.PropValue("responsesAlignement") = "left" and CurrentADC.PropValue("responsesDirection") = "1" and CurrentADC.PropValue("respOnHeader") = "0") Then %}
+      align-items: flex-start;
+      {% ElseIf (CurrentADC.PropValue("responsesAlignement") = "right" and CurrentADC.PropValue("responsesDirection") = "1" and CurrentADC.PropValue("respOnHeader") = "0") Then %}
+      align-items: flex-end;
+      {% Else %}
+      align-items: center;
+      {% EndIf %}
+  }
+#adc_{%= CurrentADC.InstanceId %} .header-response-container {
+    {% If ((CurrentADC.PropValue("responsesAlignement") = "left" or CurrentADC.PropValue("responsesAlignement") = "right") and CurrentADC.PropValue("responsesDirection") = "1" and CurrentADC.PropValue("respOnHeader") = "1") Then %}
+      text-align: {%= CurrentADC.PropValue("responsesAlignement") %};
+      {% EndIf %}
+      {% If (CurrentADC.PropValue("responsesAlignement") = "left" and CurrentADC.PropValue("responsesDirection") = "1" and CurrentADC.PropValue("respOnHeader") = "1") Then %}
+      align-items: flex-start;
+      {% ElseIf (CurrentADC.PropValue("responsesAlignement") = "right" and CurrentADC.PropValue("responsesDirection") = "1" and CurrentADC.PropValue("respOnHeader") = "1") Then %}
+      align-items: flex-end;
+      {% Else %}
+      align-items: center;
+      {% EndIf %}
+}
+  {% If (CurrentADC.PropValue("responsesDirection") <> "1" and CurrentADC.PropValue("showBorderColumn") = "yes") Then %}
+    #adc_{%= CurrentADC.InstanceId %} .closed .response-container {
+        border-right: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+    }
+    #adc_{%= CurrentADC.InstanceId %} .responses-container .response-container:last-child {
+        border-right: 0px solid transparent;
+    }
+    {% EndIf %}
+    {% If (CurrentADC.PropValue("responsesDirection") = "1" and CurrentADC.PropValue("showBorderColumn") = "yes") Then %}
+    #adc_{%= CurrentADC.InstanceId %} .closed .response-container:not(:first-child) {
+        border-top: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+    }
+	{% EndIf %}
+    {% If (( CurrentADC.PropValue("responsesAlignement") = "left" or CurrentADC.PropValue("responsesAlignement") = "right" ) and CurrentADC.PropValue("responsesDirection") = "1" ) Then %}
+    #adc_{%= CurrentADC.InstanceId %} .response-container .content,
+	#adc_{%= CurrentADC.InstanceId %} .header-response-container > label {
+        display: block;
+        width: 100%;
+    }
+    #adc_{%= CurrentADC.InstanceId %} .response-container .content img,
+	#adc_{%= CurrentADC.InstanceId %} .header-response-container > label img {
+      {% If ( CurrentADC.PropValue("responsesAlignement") = "left") Then %}
+      float: right;
+      {% Else %}
+      float: left;
+      {% EndIf %}
+    }
+ {% EndIf %}
+#adc_{%= CurrentADC.InstanceId %} .header-response-container > label {
+        min-height: 24px;
+    }
+#adc_{%= CurrentADC.InstanceId %} .horizontaltable-firstcolumn {
+  border-left: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+}
+
+/* If browser support touch false and javascript true */
+{% If ((Browser.Support("touch") = False) and (Browser.Support("javascript"))) Then %}
+#adc_{%= CurrentADC.InstanceId %} .response-container:not(.emptyCell):hover {
+  background-color: rgba({%= CurrentADC.PropValue("hoverBgPrimaryColor").ToRGB() %},.1);
+  color: rgb({%= CurrentADC.PropValue("hoverFontColor").ToRGB() %});
+}
+{% EndIf %}
+/* If responses on headers and show header */
+{% If (CurrentADC.PropValue("respOnHeader") = "1" and  CurrentADC.PropValue("responsesDirection") = "1") Then %}
+#adc_{%= CurrentADC.InstanceId %} .response-container .content {
+  display: none;
+}
+{% EndIf %}
+/* If responses not on headers or not show header */
+{% If (CurrentADC.PropValue("respOnHeader") = "0" or CurrentADC.PropValue("responsesDirection") = "0") Then %}
+#adc_{%= CurrentADC.InstanceId %} .response-container .askia-checkbox,
+#adc_{%= CurrentADC.InstanceId %} .response-container .askia-radio {
+  display: none;
+}
+{% EndIf %}
+
+#adc_{%= CurrentADC.InstanceId %} input[type=number],
+#adc_{%= CurrentADC.InstanceId %} input[type=text] {
+  color: rgba({%= Theme.BlackColor %});
+  background-color: rgba({%= Theme.WhiteColor %});
+  font-size: {%= Theme.NormalFS %};
+  border: {%= Theme.BorderWidth %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= Theme.NeutralColor %});
+  padding: 0.5em 0.5em;
+}
+#adc_{%= CurrentADC.InstanceId %} select {
+    font-size: {%= Theme.NormalFS %};
+}
+#adc_{%= CurrentADC.InstanceId %} .response-container.selected:not(.emptyCell) {
+    background-color: rgba({%= CurrentADC.PropValue("selectedBgPrimaryColor").ToRGBA() %});
+    color: rgb({%= CurrentADC.PropValue("selectedFontColor").ToRGB() %});
+}
+#adc_{%= CurrentADC.InstanceId %} .sum {
+    color: rgba({%= Theme.BlackColor.ToRGB() %},.6);
+}
+#adc_{%= CurrentADC.InstanceId %} .equalLimit {
+    color: rgba({%= CurrentADC.PropValue("maxLimReachedColor").ToRGBA() %});
+}
+#adc_{%= CurrentADC.InstanceId %} .aboveLimit {
+    color: rgba({%= CurrentADC.PropValue("maxLimitExceededColor").ToRGBA() %});
+}
+{% If (CurrentADC.PropValue("useSlider") = "1") Then %}
+#adc_{%= CurrentADC.InstanceId %} [id^=askia-input-number]:not(.dkbutton) {
+    display: none;
+}
+{% EndIf %}
+
+#adc_{%= CurrentADC.InstanceId %} .select select,
+#adc_{%= CurrentADC.InstanceId %} select:focus::-ms-value,
+#adc_{%= CurrentADC.InstanceId %} .RLTimePicker select:not([disabled=disabled]) {
+    color: rgba({%= Theme.BlackColor %}) !important;
+    background-color: rgba({%= Theme.WhiteColor %}) !important;
+}
+#adc_{%= CurrentADC.InstanceId %} .RLTimePicker,
+#adc_{%= CurrentADC.InstanceId %} .RLTimePicker option,
+#adc_{%= CurrentADC.InstanceId %} .select option {
+    color: rgba({%= Theme.BlackColor %}) !important;
+    background-color: rgba({%= Theme.WhiteColor %}) !important;
+}
+#adc_{%= CurrentADC.InstanceId %} .RLTimePicker option:disabled,
+#adc_{%= CurrentADC.InstanceId %} select option:disabled {
+    color: rgba({%= Theme.BlackColor.ToRGB() %},.5) !important;
+    background-color: rgba({%= Theme.WhiteColor %}) !important;
+}
+#picker1 .is-today .pika-button {
+  color: rgba({%= Theme.SecondaryColor %}) !important;
+}
+#picker1 .is-selected .pika-button,
+#picker1 .is-inrange .pika-button,
+#picker1 .is-startrange .pika-button,
+#picker1 .is-endrange .pika-button {
+  background-color: rgba({%= Theme.SecondaryColor %}) !important;
+  color: rgba({%= Theme.WhiteColor %}) !important;
+}
+#picker1 .pika-button:hover {
+  background-color: rgba({%= Theme.PrimaryColor %}) !important;
+  color: rgba({%= Theme.WhiteColor %}) !important;
+}
+{% If (CurrentADC.PropValue("useSlider") = "1") Then %}
+#adc_{%= CurrentADC.InstanceId %} .numeric .suffix {
+  min-width: 50px;
+}
+{% EndIf %}
+
+#adc_{%= CurrentADC.InstanceId %} input[type=range] {
+  border-radius: {%= Theme.BorderRadius %};
+}
+#adc_{%= CurrentADC.InstanceId %} .range:after,
+#adc_{%= CurrentADC.InstanceId %} .range:before {
+    font-size: {%= Theme.SmallFS %};
+    color: rgb({%= Theme.NeutralDarkColor.ToRGB() %});
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  border-radius: {%= Theme.BorderRadius %};
+  border: 0px solid #010101;
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range]::-webkit-slider-thumb {
+  position: relative;
+  border: 1px solid rgb({%= Theme.NeutralDarkColor.ToRGB() %});
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  background-color: rgb({%= Theme.NeutralLightColor.ToRGB() %});
+  top: -9px;
+  cursor: ew-resize;
+  -webkit-appearance: none;
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range].selected::-webkit-slider-thumb {
+    border: 1px solid rgb({%= Theme.SecondaryColor.ToRGB() %});
+    background-color: rgb({%= Theme.SecondaryColor.ToRGB() %});
+}
+@supports (-ms-ime-align: auto) {
+ #adc_{%= CurrentADC.InstanceId %} input[type=range]::-ms-thumb {
+        margin-top: 0px;
+  }
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  border-radius: {%= Theme.BorderRadius %};
+  border: 0px solid rgb({%= Theme.NeutralDarkColor.ToRGB() %});
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range]::-moz-range-thumb {
+  border: 1px solid rgb({%= Theme.NeutralDarkColor.ToRGB() %});
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  background: rgb({%= Theme.NeutralLightColor.ToRGB() %});
+  cursor: ew-resize;
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range].selected::-moz-range-thumb {
+    border: 1px solid rgb({%= Theme.SecondaryColor.ToRGB() %});
+    background: rgb({%= Theme.SecondaryColor.ToRGB() %});
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range]::-ms-track {
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+  border-radius: {%= Theme.BorderRadius %};
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range]::-ms-fill-lower {
+  height: 8px; 
+  border: 0px solid rgb({%= Theme.NeutralDarkColor.ToRGB() %});
+    -webkit-border-top-left-radius: {%= Theme.BorderRadius %};
+    -webkit-border-bottom-left-radius: {%= Theme.BorderRadius %};
+    -moz-border-radius-topleft: {%= Theme.BorderRadius %};
+    -moz-border-radius-bottomleft: {%= Theme.BorderRadius %};
+    border-top-left-radius: {%= Theme.BorderRadius %};
+    border-bottom-left-radius: {%= Theme.BorderRadius %};
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range]::-ms-fill-upper {
+  height: 8px;
+  border: 0px solid rgb({%= Theme.NeutralDarkColor.ToRGB() %});
+    -webkit-border-top-right-radius: {%= Theme.BorderRadius %};
+    -webkit-border-bottom-right-radius: {%= Theme.BorderRadius %};
+    -moz-border-radius-topright: {%= Theme.BorderRadius %};
+    -moz-border-radius-bottomright: {%= Theme.BorderRadius %};
+    border-top-right-radius: {%= Theme.BorderRadius %};
+    border-bottom-right-radius: {%= Theme.BorderRadius %};
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range]::-ms-thumb {
+  border: 1px solid rgb({%= Theme.NeutralDarkColor.ToRGB() %});
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  background: rgb({%= Theme.NeutralLightColor.ToRGB() %});
+  cursor: ew-resize;
+}
+#adc_{%= CurrentADC.InstanceId %} input[type=range].selected::-ms-thumb {
+    border: 1px solid rgb({%= Theme.SecondaryColor.ToRGB() %});
+    background: rgb({%= Theme.SecondaryColor.ToRGB() %});
+}
+
+#adc_{%= CurrentADC.InstanceId %} .preBar {
+    height: 8px;
+    line-height: 8px;
+    border-radius: {%= Theme.BorderRadius %};
+}
+
+#adc_{%= CurrentADC.InstanceId %} .selected + .preBar {
+    background-color: rgb({%= Theme.SecondaryColor.ToRGB() %});
+}
+
+/** Chrome*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    #adc_{%= CurrentADC.InstanceId %} input[type='range']::-webkit-slider-runnable-track {
+      background-color: rgb({%= Theme.NeutralLightColor.ToRGB() %});
+    }
+}
+/** FF*/
+#adc_{%= CurrentADC.InstanceId %} input[type="range"]::-moz-range-progress {
+  /** Selected color */
+  height: 8px;
+  border-radius: {%= Theme.BorderRadius %};
+}
+#adc_{%= CurrentADC.InstanceId %} input[type="range"].selected::-moz-range-progress {
+  /** Selected color */
+  background-color: rgb({%= Theme.SecondaryColor.ToRGB() %}); 
+}
+#adc_{%= CurrentADC.InstanceId %} input[type="range"]::-moz-range-track {  
+  background-color: rgb({%= Theme.NeutralLightColor.ToRGB() %});
+}
+/* IE*/
+#adc_{%= CurrentADC.InstanceId %} input[type="range"]::-ms-fill-lower {
+  /** Selected color */
+  background-color: rgb({%= Theme.NeutralLightColor.ToRGB() %}); 
+}
+#adc_{%= CurrentADC.InstanceId %} input[type="range"].selected::-ms-fill-lower {
+  /** Selected color */
+  background-color: rgb({%= Theme.SecondaryColor.ToRGB() %}); 
+}
+#adc_{%= CurrentADC.InstanceId %} input[type="range"]::-ms-fill-upper {  
+  background-color: rgb({%= Theme.NeutralLightColor.ToRGB() %});
+}
+
+@media screen and (max-width: {%= CurrentADC.PropValue("responsiveWidth") %}) and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    #adc_{%= CurrentADC.InstanceId %} .date .responses-container {
+  		flex-direction: row;
+	}
+}
+{% If (CurrentADC.PropValue("useSlider") = "1") Then %}
+@media screen and (max-width: {%= CurrentADC.PropValue("responsiveWidth") %}) and (min-width:0\0) {
+  /* IE9 and IE10 rule sets go here */
+  #adc_{%= CurrentADC.InstanceId %} .numeric .DK{
+    width: 200px;
+  }
+}
+{% EndIf %}
+#adc_{%= CurrentADC.InstanceId %} .DK {
+      text-align: center;
+      align-self: center;
+      width: 100%;
+  }
+#adc_{%= CurrentADC.InstanceId %} .numeric .DK {
+      align-self: stretch;
+  }
+#adc_{%= CurrentADC.InstanceId %} input[readonly=readonly],
+#adc_{%= CurrentADC.InstanceId %} textarea[readonly=readonly],
+#adc_{%= CurrentADC.InstanceId %} .RLTimePicker select[disabled=disabled],
+#adc_{%= CurrentADC.InstanceId %} .RLTimePicker select[disabled=disabled] + span[class^="timeSeparator_"],
+#adc_{%= CurrentADC.InstanceId %} .RLTimePicker select[disabled=disabled] + .secsContainer span[class^="timeSeparator_"],
+#adc_{%= CurrentADC.InstanceId %} input[readonly=readonly] + .imperial {
+    background-color: rgba({%= Theme.BlackColor.ToRGB() %},0.05);
+}
+{% If (CurrentADC.PropValue("forceImagesWidth") = "1") Then %}
+#adc_{%= CurrentADC.InstanceId %} .header-response-container img,
+#adc_{%= CurrentADC.InstanceId %} .closed .response-container img {
+  width: 100%;
+  max-width: {%= CurrentADC.PropValue("maxImagesWidth") %};
+}
+{% EndIf %}
+{% If (CurrentADC.PropValue("forceLoopImagesWidth") = "1") Then %}
+#adc_{%= CurrentADC.InstanceId %} .horizontaltable-cell--head img {
+  width: 100%;
+  max-width: {%= CurrentADC.PropValue("maxLoopImagesWidth") %} !important;
+}
+{% EndIf %}
+#adc_{%= CurrentADC.InstanceId %} .response-container.emptyCell {
+    cursor: auto;
+}
+
+#adc_{%= CurrentADC.InstanceId %} > .horizontaltable-cell {
+  width: {%= othersColumnWidth %}%;
+}
+#adc_{%= CurrentADC.InstanceId %} > .horizontaltable-firstcolumn {
+  width: {%= firstColumnWidth %}%;
+}
+#adc_{%= CurrentADC.InstanceId %} .horizontaltable-cell--head img {
+  max-width: 100%;
+}
+#adc_{%= CurrentADC.InstanceId %} .paddingZoom {
+  position: relative;
+}
+
+@media all and (max-width: {%= CurrentADC.PropValue("responsiveWidth") %}) {
+  #adc_{%= CurrentADC.InstanceId %} {
+    display: block;
+    box-shadow: none;
+  }
+  #adc_{%= CurrentADC.InstanceId %} >.horizontaltable-cell {
+    width: 100% !important;
+    border-left: {%= Theme.BorderWidth %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= Theme.NeutralColor %});
+  }
+  #adc_{%= CurrentADC.InstanceId %} >.horizontaltable-cell--foot {
+    margin-bottom: 1em;
+  }
+  #adc_{%= CurrentADC.InstanceId %} .horizontaltable-firstcolumn {
+    display: none;
+  }
+  #adc_{%= CurrentADC.InstanceId %} .sum-container {
+    display: block;
+    text-align: left;
+  }
+
+  #adc_{%= CurrentADC.InstanceId %} .closed .responses-container {
+      {% If ( CurrentADC.PropValue("responsiveResponsesDirection") = "1" ) Then %}
+  	display: inline-block;
+      {% Else %}
+    display: flex;
+      {% EndIf %}
+  }
+    
+  #adc_{%= CurrentADC.InstanceId %} .closed .response-container {
+      {% If ((CurrentADC.PropValue("responsiveResponsesAlignement") = "left" or CurrentADC.PropValue("responsiveResponsesAlignement") = "right") and CurrentADC.PropValue("responsiveResponsesDirection") = "1") Then %}
+      text-align: {%= CurrentADC.PropValue("responsiveResponsesAlignement") %};
+      {% EndIf %}
+      {% If (CurrentADC.PropValue("responsiveResponsesAlignement") = "left" and CurrentADC.PropValue("responsiveResponsesDirection") = "1") Then %}
+      align-items: flex-start;
+      {% ElseIf (CurrentADC.PropValue("responsiveResponsesAlignement") = "right" and CurrentADC.PropValue("responsiveResponsesDirection") = "1") Then %}
+      align-items: flex-end;
+      {% Else %}
+      align-items: center;
+      {% EndIf %}
+  }
+  {% If (CurrentADC.PropValue("responsiveResponsesDirection") <> "1") Then %}
+  #adc_{%= CurrentADC.InstanceId %} .closed .response-container {
+      border-top: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+      border-bottom: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+  }
+  #adc_{%= CurrentADC.InstanceId %} .responses-container .response-container:last-child {
+    border-right: 0px solid transparent;
+  }
+  {% EndIf %}
+  {% If (CurrentADC.PropValue("responsiveResponsesDirection") = "1") Then %}
+  #adc_{%= CurrentADC.InstanceId %} .closed .response-container:last-child {
+      border-bottom: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+  }
+  #adc_{%= CurrentADC.InstanceId %} .closed .response-container:not(:last-child) {
+      border-bottom: 0px {%= CurrentADC.PropValue("borderStyle") %} transparent;
+  }
+  #adc_{%= CurrentADC.InstanceId %} .closed .response-container {
+      border-right: 0px {%= CurrentADC.PropValue("borderStyle") %} transparent;
+  }
+  {% EndIf %}
+  {% If (CurrentADC.PropValue("responsiveResponsesDirection") <> "1" and CurrentADC.PropValue("showBorderColumn") = "yes") Then %}
+    #adc_{%= CurrentADC.InstanceId %} .closed .response-container {
+        border-right: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+    }
+    #adc_{%= CurrentADC.InstanceId %} .responses-container .response-container:last-child {
+        border-right: 0px solid transparent;
+    }
+    {% EndIf %}
+    {% If (CurrentADC.PropValue("responsiveResponsesDirection") = "1" and CurrentADC.PropValue("showBorderColumn") = "yes") Then %}
+    #adc_{%= CurrentADC.InstanceId %} .closed .response-container {
+        border-top: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
+    }
+	{% EndIf %}
+  #adc_{%= CurrentADC.InstanceId %} .question-label {
+      {% If (rowNumber = 1) Then %}
+      display: none;
+      {% Else %}
+      display: block;
+      {% EndIf %}
+    border-bottom: 0px solid transparent;
+    text-align: left;
+    margin: .3em 0;
+  }
+  #adc_{%= CurrentADC.InstanceId %} .responses-container {
+    justify-content: flex-start;
+  }
+  #adc_{%= CurrentADC.InstanceId %} .response-container,
+  #adc_{%= CurrentADC.InstanceId %} .odd {
+    background-color: rgba({%= Theme.WhiteColor.ToRGB() %},1);
+  }
+  #adc_{%= CurrentADC.InstanceId %} .response-container .content {
+    display: flex;
+  }
+    {% If (( CurrentADC.PropValue("responsiveResponsesAlignement") = "left" or CurrentADC.PropValue("responsiveResponsesAlignement") = "right" ) and CurrentADC.PropValue("responsiveResponsesDirection") = "1" ) Then %}
+  #adc_{%= CurrentADC.InstanceId %} .response-container .content {
+    display: block;
+    width: 100%;
+  }
+  #adc_{%= CurrentADC.InstanceId %} .response-container .content img {
+      {% If ( CurrentADC.PropValue("responsiveResponsesAlignement") = "left") Then %}
+      float: right;
+      {% Else %}
+      float: left;
+      {% EndIf %}
+  }
+    {% EndIf %}
+  #adc_{%= CurrentADC.InstanceId %} input[type="text"],
+  #adc_{%= CurrentADC.InstanceId %} input[type="email"],
+  #adc_{%= CurrentADC.InstanceId %} input[type="url"] {
+    max-width: 97%;
+  }
+  #adc_{%= CurrentADC.InstanceId %} textarea {
+    width: 95%;
+  }
+  #adc_{%= CurrentADC.InstanceId %} input[type="radio"],
+  #adc_{%= CurrentADC.InstanceId %} .response-container input[type="checkbox"],
+  #adc_{%= CurrentADC.InstanceId %} .askia-radio,
+  #adc_{%= CurrentADC.InstanceId %} .askia-checkbox {
+    display: none;
+  }
+  #adc_{%= CurrentADC.InstanceId %} .DK .askia-checkbox {
+    display: inline-block;
+  }
+  #adc_{%= CurrentADC.InstanceId %} .DK {
+      {% If (CurrentADC.PropValue("useSlider") = "0") Then %}
+      text-align: left;
+      {% Else %}
+      text-align: center;
+      {% EndIf %}
+      width: auto;
+  }
+  #adc_{%= CurrentADC.InstanceId %} .date .DK {
+      padding: 5px 5px 9px 5px;
+  }
+  #adc_{%= CurrentADC.InstanceId %} .sum-container {
+    {% If (CurrentADC.PropValue("showTotal") = "1") Then %}
+    display: block;
+    {% Else %}
+    display: none;
+    {% EndIf %}
+    text-align: left;
+  }
+}
+
+#adc_{%= CurrentADC.InstanceId %} * {
+    font-family: {%= Theme.FontFamily %};
+}
+#adc_{%= CurrentADC.InstanceId %} ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: rgba({%= Theme.BlackColor.ToRGB() %},0.3) !important;
+}
+#adc_{%= CurrentADC.InstanceId %} ::-moz-placeholder { /* Firefox 19+ */
+  	color: rgba({%= Theme.BlackColor.ToRGB() %},0.3) !important;
+}
+#adc_{%= CurrentADC.InstanceId %} :-ms-input-placeholder { /* IE 10+ */
+  	color: rgba({%= Theme.BlackColor.ToRGB() %},0.3) !important;
+}
+#adc_{%= CurrentADC.InstanceId %} :-moz-placeholder { /* Firefox 18- */
+  	color: rgba({%= Theme.BlackColor.ToRGB() %},0.3) !important;
+}
+#adc_{%= CurrentADC.InstanceId %} ::placeholder {
+  	color: rgba({%= Theme.BlackColor.ToRGB() %},0.3) !important;
+}

@@ -27,7 +27,7 @@ Next i1
 (function () {
   var horizontaltable = new HorizontalTable({
     instanceId: {%= CurrentADC.InstanceId %},
-    nbLoopItems: {%= CurrentQuestion.ParentLoop.Answers.Count %},
+    nbLoopItems: {%= CurrentQuestion.ParentLoop.AvailableAnswers.Count %},
     responsiveWidth:  parseInt('{%= CurrentADC.PropValue("responsiveWidth") %}',10),
     showTotal: {%= CurrentADC.PropValue("showTotal") %},
     scrollNextIteration: {%= On(CurrentADC.PropValue("scrollNextIteration") = "1", true, false)%},
@@ -80,7 +80,7 @@ Next i1
     	row = CurrentADC.PropQuestion("questionRow"+i2)
     	If row.Type = "datetime" Then 
         	If(Not(row.IsDateOnly)) Then
-            	For i3 = 1 to CurrentQuestion.ParentLoop.Answers.Count
+            	For i3 = 1 to CurrentQuestion.ParentLoop.AvailableAnswers.Count
     				row = CurrentADC.PropQuestion("questionRow"+i2)
 					row = row.AllIterations[i3] %}
   var timePicker{%= row.InputCode %} = new TimePicker({
@@ -91,9 +91,9 @@ Next i1
     hideInput: true,
     minHour: {%= Hour(row.MinDate) %},
     maxHour: {%= Hour(row.MaxDate) %},
-    selectedHour: '{%= Hour(row.Iteration(row.ParentLoop.Answers[i3].Index).Value.ToDate()) %}',
-    selectedMin: '{%= Minute(row.Iteration(row.ParentLoop.Answers[i3].Index).Value.ToDate()) %}',
-    selectedSec: '{%= Second(row.Iteration(row.ParentLoop.Answers[i3].Index).Value.ToDate()) %}',
+    selectedHour: '{%= Hour(row.Iteration(row.ParentLoop.AvailableAnswers[i3].Index).Value.ToDate()) %}',
+    selectedMin: '{%= Minute(row.Iteration(row.ParentLoop.AvailableAnswers[i3].Index).Value.ToDate()) %}',
+    selectedSec: '{%= Second(row.Iteration(row.ParentLoop.AvailableAnswers[i3].Index).Value.ToDate()) %}',
     question: '{%= row.Shortcut %}',
     adcId: {%= CurrentADC.InstanceId %},
     inputCode: {%= row.InputCode %}
@@ -102,7 +102,7 @@ Next i1
         	EndIf
 			row = CurrentADC.PropQuestion("questionRow"+i2)
 			If (Not(row.IsTimeOnly)) Then 
-				For i4 = 1 to CurrentQuestion.ParentLoop.Answers.Count
+				For i4 = 1 to CurrentQuestion.ParentLoop.AvailableAnswers.Count
     				row = CurrentADC.PropQuestion("questionRow"+i2)
 					row = row.AllIterations[i4] %}
   var datePicker{%= row.InputCode %} = new DatePicker({

@@ -19,7 +19,7 @@ Else
     controlAlign = "0 auto 0 0"
 EndIf
 Dim firstColumnWidth = CurrentADC.PropValue("firstColumnWidth")
-Dim othersColumnWidth = ((100 - firstColumnWidth.ToNumber() ) / CurrentQuestion.ParentLoop.Answers.Count).Floor()
+Dim othersColumnWidth = ((100 - firstColumnWidth.ToNumber() ) / CurrentQuestion.ParentLoop.AvailableAnswers.Count).Floor()
 %}
 #adc_{%= CurrentADC.InstanceId %} {
 	width: 100%;

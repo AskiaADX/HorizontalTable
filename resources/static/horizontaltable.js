@@ -696,7 +696,7 @@
    */
     function onInputNumbers (event, that) {
         var el = event.target || event.srcElement;
-        var split = el.className.split('_')
+        var split = el.className.split('_');
         var maxLimit = that.maxLimit[parseInt(split[2], 10) - 1];
         var decimals = that.decimals[parseInt(split[2], 10) - 1] || 0;
         var shortcut = that.questions[parseInt(el.getAttribute('data-class').split('_')[1], 10) - 1] || '';
@@ -748,7 +748,6 @@
    */
     function onInputOpens (event, that) {
         var el = event.target || event.srcElement;
-        var split = el.className.split('_')
         var shortcut = that.questions[parseInt(el.getAttribute('data-class').split('_')[1], 10) - 1] || '';
         triggerRouting(shortcut);
         var debounceStepByStep = debounce(stepByStepColumns, 300);
@@ -764,6 +763,9 @@
    * @param {Object} that HorizontalTable object, same as options
    */
     function onSelects (event, that) {
+        var el = event.target || event.srcElement;
+        var shortcut = that.questions[parseInt(el.getAttribute('data-class').split('_')[1], 10) - 1] || '';
+        triggerRouting(shortcut);
         var debounceStepByStep = debounce(stepByStepColumns, 300);
         debounceStepByStep(that);
         var debounceAutoSubmitForm = debounce(autoSubmitForm, 300);
@@ -778,7 +780,6 @@
    */
     function onInputDates (event, that) {
         var el = event.target || event.srcElement;
-        var split = el.className.split('_')
         var shortcut = that.questions[parseInt(el.getAttribute('data-class').split('_')[1], 10) - 1] || '';
         triggerRouting(shortcut);
         var debounceStepByStep = debounce(stepByStepColumns, 300);
@@ -795,7 +796,7 @@
    */
     function onInputRanges (event, that) {
         var el = event.target || event.srcElement;
-        var split = el.className.split('_')
+        var split = el.className.split('_');
         var suffix = that.suffixes[parseInt(split[2], 10) - 1];
         var decimals = that.decimals[parseInt(split[2], 10) - 1] || 0;
         var inputNumber = document.querySelector('#adc_' + that.instanceId + ' #askia-input-number' + el.id.split('_')[1]);

@@ -1130,7 +1130,7 @@
         var inputDates = document.querySelectorAll('#adc_' + this.instanceId + ' .date input[type="text"]');
         var dateInputDK = document.querySelectorAll('#adc_' + this.instanceId + ' .date .DK input[type="checkbox"]');
 
-        document.getElementById('adc_' + this.instanceId).parentElement.style.maxWidth = '1px';
+        if (document.getElementById('adc_' + this.instanceId).parentElement.nodeName === "TD") document.getElementById('adc_' + this.instanceId).parentElement.style.maxWidth = '1px';
 
         // Change event on input radio
         for (var i = 0; i < radios.length; i++) {

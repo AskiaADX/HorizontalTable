@@ -29,6 +29,9 @@ Dim othersColumnWidth = ((100 - firstColumnWidth.ToNumber() ) / CurrentQuestion.
     box-shadow: 2px 2px 2px rgba({%= Theme.BlackColor.ToRGB() %},.2);
     {% EndIf %}
 }
+#adc_{%= CurrentADC.InstanceId %} .header-response-container:first-child {
+    margin-top: 1px;
+}
 #adc_{%= CurrentADC.InstanceId %} .horizontaltable-cell {
   border-top: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});
   border-right: {%= CurrentADC.PropValue("borderThickness") %} {%= CurrentADC.PropValue("borderStyle") %} rgba({%= CurrentADC.PropValue("borderColour").ToRGBA() %});

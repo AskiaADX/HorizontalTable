@@ -1062,11 +1062,18 @@
         document.querySelectorAll(".header-response-container").forEach(function(item){
             var currentSize = item.clientHeight;
             var responsesToModify = document.querySelectorAll("." + item.getAttribute('data-target'));
+            var inputCellHeight = (responsesToModify.length && isNaN(parseInt(responsesToModify[0].clientHeight)) === false) ? parseInt(responsesToModify[0].clientHeight) : 0;
             for (var i = 0; i < responsesToModify.length; i++) {
                 if (lowerResponsive) {
                     responsesToModify[i].style.height = 'auto';   
                 } else {
-                	responsesToModify[i].style.height = currentSize + 'px';
+                    if (currentSize > inputCellHeight) {
+                        responsesToModify[i].style.height = currentSize + 'px';
+                        item.style.height = currentSize + 'px';
+                    } else {
+                        responsesToModify[i].style.height = inputCellHeight + 'px';
+                        item.style.height = inputCellHeight + 'px';
+                    }
                 }
             }
         });

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<control  xmlns="http://www.askia.com/2.1.0/ADCSchema"
+<control  xmlns="http://www.askia.com/2.2.0/ADCSchema"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://www.askia.com/2.1.0/ADCSchema https://raw.githubusercontent.com/AskiaADX/ADXSchema/2.1.0/ADCSchema.xsd"
-          version="2.1.0"
-          askiaCompat="5.4.2">
+          xsi:schemaLocation="http://www.askia.com/2.2.0/ADCSchema https://raw.githubusercontent.com/AskiaADX/ADXSchema/2.2.0/ADCSchema.xsd"
+          version="2.2.0"
+          askiaCompat="5.5.2">
   <info>
     <name>HorizontalTable</name>
     <guid>c87d5116-6ff0-401d-95da-507fa83a2374</guid>
-    <version>3.0.4</version>
+    <version>3.0.5</version>
     <date>2019-03-13</date>
     <description><![CDATA[Horizontal table]]></description>
     <company>Askia</company>

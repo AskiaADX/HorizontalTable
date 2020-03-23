@@ -7,7 +7,7 @@
   <info>
     <name>HorizontalTable</name>
     <guid>c87d5116-6ff0-401d-95da-507fa83a2374</guid>
-    <version>3.0.5</version>
+    <version>3.0.6</version>
     <date>2019-03-13</date>
     <description><![CDATA[Horizontal table]]></description>
     <company>Askia</company>
@@ -565,7 +565,7 @@ Format: MM/DD/YYYY]]></description>
       </property>
       <property xsi:type="standardProperty" id="rowAsComboBox1" name="Use combo box" type="string" require="false" visible="true">
         <description><![CDATA[If the question in this Row is a single closed question sets if it's a combo box or a radio button]]></description>
-        <value></value>
+        <value><![CDATA[0]]></value>
         <options>
           <option value="0" text="Radio Button" />
           <option value="1" text="ComboBox" />
@@ -596,7 +596,7 @@ Format: MM/DD/YYYY]]></description>
       </property>
       <property xsi:type="standardProperty" id="rowAsComboBox2" name="Use combo box" type="string" require="false" visible="true">
         <description><![CDATA[If the question in this Row is a single closed question sets if it's a combo box or a radio button]]></description>
-        <value></value>
+        <value><![CDATA[0]]></value>
         <options>
           <option value="0" text="Radio Button" />
           <option value="1" text="ComboBox" />
@@ -627,7 +627,7 @@ Format: MM/DD/YYYY]]></description>
       </property>
       <property xsi:type="standardProperty" id="rowAsComboBox3" name="Use combo box" type="string" require="false" visible="true">
         <description><![CDATA[If the question in this Row is a single closed question sets if it's a combo box or a radio button]]></description>
-        <value></value>
+        <value><![CDATA[0]]></value>
         <options>
           <option value="0" text="Radio Button" />
           <option value="1" text="ComboBox" />
@@ -658,7 +658,7 @@ Format: MM/DD/YYYY]]></description>
       </property>
       <property xsi:type="standardProperty" id="rowAsComboBox4" name="Use combo box" type="string" require="false" visible="true">
         <description><![CDATA[If the question in this Row is a single closed question sets if it's a combo box or a radio button]]></description>
-        <value></value>
+        <value><![CDATA[0]]></value>
         <options>
           <option value="0" text="Radio Button" />
           <option value="1" text="ComboBox" />
@@ -689,7 +689,7 @@ Format: MM/DD/YYYY]]></description>
       </property>
       <property xsi:type="standardProperty" id="rowAsComboBox5" name="Use combo box" type="string" require="false" visible="true">
         <description><![CDATA[If the question in this Row is a single closed question sets if it's a combo box or a radio button]]></description>
-        <value></value>
+        <value><![CDATA[0]]></value>
         <options>
           <option value="0" text="Radio Button" />
           <option value="1" text="ComboBox" />
@@ -720,7 +720,7 @@ Format: MM/DD/YYYY]]></description>
       </property>
       <property xsi:type="standardProperty" id="rowAsComboBox6" name="Use combo box" type="string" require="false" visible="true">
         <description><![CDATA[If the question in this Row is a single closed question sets if it's a combo box or a radio button]]></description>
-        <value></value>
+        <value><![CDATA[0]]></value>
         <options>
           <option value="0" text="Radio Button" />
           <option value="1" text="ComboBox" />

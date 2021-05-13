@@ -57,14 +57,14 @@
  * Return a function which, until she continue to be invoked,
  * will not be executed. The function will be executed only when
  * the function will stop to be called for more than N milliseconds.
- * If the parameter `immediate` equal true, then the function 
+ * If the parameter `immediate` equal true, then the function
  * will be executed to the first call instaed of the last.
  * Parameters :
  *  - func : the function to `debounce`
- *  - wait : the number of milliseconds (N) to wait before 
+ *  - wait : the number of milliseconds (N) to wait before
  *           call the function func()
  *  - immediate : execute immediately func() (by default false)
- *                          
+ *
  */
     function debounce(func, wait, immediate) {
         var timeout, result;
@@ -123,9 +123,9 @@
    */
     function addClass (obj, clsName) {
         if (obj.classList)      {
-            obj.classList.add(clsName); 
+            obj.classList.add(clsName);
         }    else            {
-            obj.className += ' ' + clsName; 
+            obj.className += ' ' + clsName;
         }
     }
 
@@ -162,8 +162,8 @@
    * @param {String} shortcut Shortcut of the question
    */
     function triggerRouting(shortcut) {
-        if (window.askia 
-            && window.arrLiveRoutingShortcut 
+        if (window.askia
+            && window.arrLiveRoutingShortcut
             && window.arrLiveRoutingShortcut.length > 0
             && window.arrLiveRoutingShortcut.indexOf(shortcut) >= 0) {
             askia.triggerAnswer();
@@ -366,7 +366,7 @@
 
         scroll();
     }
-    
+
     /**
    * Step by step functionnality (Show or hide next column)
    *
@@ -378,7 +378,7 @@
         var lastDataFound = 0;
         var nbDataFound = 0;
         var nbHiddenQuestions = 0;
-        
+
         // Iterate tr backwards
     	for (var i = (that.nbLoopItems); i-- > 0; ) {
             divs = maindiv.querySelectorAll('div[data-tr="tr' + i + '"]');
@@ -404,9 +404,9 @@
             }
             if ((i === (that.nbLoopItems - 1)) && ((nbDataFound - nbHiddenQuestions) > 0)) break;
             if ((i === (that.nbLoopItems - 1)) && ((nbDataFound - nbHiddenQuestions) === 0)) continue;
-            
+
             var nextTr = maindiv.querySelectorAll('div[data-tr="tr' + (i + 1)  + '"]');
-            
+
             // Check if all questions have answers
             if ((nbDataFound !== (divs.length - 1)) && (lastDataFound  === 0)) {
                 if (that.stepByStep) {
@@ -433,7 +433,7 @@
                 }
                 if (hasClass(nextTr[1],'display')) {
                 	if ((window.innerWidth <= that.responsiveWidth) && that.scrollNextIteration) {
-                    	scrollIt(nextTr[0], 300, 'easeOutQuad');   
+                    	scrollIt(nextTr[0], 300, 'easeOutQuad');
                     }
                     nextTr.forEach(function(item){
                         removeClass(item,'display');
@@ -441,9 +441,9 @@
                 }
                 break;
             }
-        }   
+        }
     }
-    
+
     function autoSubmitForm (that) {
         var maindiv = document.getElementById('adc_' + that.instanceId);
         var divs;
@@ -451,7 +451,7 @@
         var nbDataFound = 0;
         var nbHiddenQuestions = 0;
         var nextBtn = document.getElementsByName('Next')[0];
-        
+
         // Iterate tr backwards
     	for (var i = (that.nbLoopItems); i-- > 0; ) {
             divs = maindiv.querySelectorAll('div[data-tr="tr' + i + '"]');
@@ -495,6 +495,7 @@
    * @param {HTMLElement} obj HTMLElement (input) changed
    */
     function manageExclusive (obj) {
+
         var responsesContainer = obj.parentNode.parentNode;
         for (var i = 0; j = responsesContainer.children.length, i < j; i++) {
             if ((responsesContainer.children[i].children[0] !== obj) &&
@@ -517,17 +518,22 @@
    * @param {Object} event Change event of the input radio and checkbox
    */
     function onChange (event, that) {
+
         var el = event.target || event.srcElement;
+        var el2 = el.nextElementSibling.nextElementSibling.children[0];
+
         if (el.nodeName === 'INPUT' && (el.type === 'radio' || el.type === 'checkbox')) {
             if (el.checked) {
                 addClass(el.parentNode, 'selected');
+                if (el2.classList.contains("otherText")) el2.style.display = "block";
             } else if (!el.checked) {
                 removeClass(el.parentNode, 'selected');
+                if (el2.classList.contains("otherText")) el2.style.display = "none";
             }
             manageExclusive(el);
             if (el.className !== 'dkbutton') {
                 var shortcut = that.questions[parseInt(el.getAttribute('data-class').split('_')[1], 10) - 1] || '';
-                triggerRouting(shortcut);   
+                triggerRouting(shortcut);
                 var debounceStepByStep = debounce(stepByStepColumns, 300);
                 debounceStepByStep(that);
                 var debounceAutoSubmitForm = debounce(autoSubmitForm, 300);
@@ -631,20 +637,20 @@
             if (el.checked) {
                 if (inputDate) {
                     inputDate.value = '';
-                    inputDate.setAttribute('readonly', 'readonly');   
-                    inputDate.setAttribute('disabled', 'disabled');   
+                    inputDate.setAttribute('readonly', 'readonly');
+                    inputDate.setAttribute('disabled', 'disabled');
                 }
                 if (selectHour) {
                     selectHour.selectedIndex =0;
-                    selectHour.setAttribute('disabled', 'disabled');   
+                    selectHour.setAttribute('disabled', 'disabled');
                 }
                 if (selectMinutes) {
                     selectMinutes.selectedIndex =0;
-                    selectMinutes.setAttribute('disabled', 'disabled');   
+                    selectMinutes.setAttribute('disabled', 'disabled');
                 }
                 if (selectSeconds) {
                     selectSeconds.selectedIndex =0;
-                    selectSeconds.setAttribute('disabled', 'disabled');   
+                    selectSeconds.setAttribute('disabled', 'disabled');
                 }
                 if (inputTime) {
                     inputTime.value = '';
@@ -713,7 +719,7 @@
                 results[j].innerHTML = sum.toLocaleString(undefined, {minimumFractionDigits: decimals,maximumFractionDigits: decimals});
             } else if (that.showTotal === 2) {
                 if (isNaN(maxLimit) === false) {
-                    results[j].innerHTML = (maxLimit  - sum).toLocaleString(undefined, {minimumFractionDigits: decimals,maximumFractionDigits: decimals});  
+                    results[j].innerHTML = (maxLimit  - sum).toLocaleString(undefined, {minimumFractionDigits: decimals,maximumFractionDigits: decimals});
                 } else {
                     results[j].innerHTML = (sum).toLocaleString(undefined, {minimumFractionDigits: decimals,maximumFractionDigits: decimals});
                 }
@@ -1050,7 +1056,7 @@
         }
         return true;
     }
-    
+
     /**
    * Make the responses the same height
    *
@@ -1058,14 +1064,14 @@
    */
     function makeResponsesSameHeight (that) {
         var lowerResponsive = window.innerWidth <= that.responsiveWidth;
-            
+
         document.querySelectorAll(".header-response-container").forEach(function(item){
             var currentSize = item.clientHeight;
             var responsesToModify = document.querySelectorAll("." + item.getAttribute('data-target'));
             var inputCellHeight = (responsesToModify.length && isNaN(parseInt(responsesToModify[0].clientHeight)) === false) ? parseInt(responsesToModify[0].clientHeight) : 0;
             for (var i = 0; i < responsesToModify.length; i++) {
                 if (lowerResponsive) {
-                    responsesToModify[i].style.height = 'auto';   
+                    responsesToModify[i].style.height = 'auto';
                 } else {
                     if (currentSize > inputCellHeight) {
                         responsesToModify[i].style.height = currentSize + 'px';
@@ -1085,7 +1091,7 @@
    * @param {Object} options Options of the HorizontalTable
    * @param {String} options.instanceId=1 Id of the ADC instance
    */
-    function HorizontalTable (options) {	
+    function HorizontalTable (options) {
         this.options = options;
         this.instanceId = options.instanceId || 1;
         this.nbLoopItems = options.nbLoopItems || 1;
@@ -1101,10 +1107,10 @@
         this.suffixes = options.suffixes || [];
         this.decimals = options.decimals || [];
         this.useSlider = options.useSlider || 0;
-        this.arrInputCodesHiddenQuestions = []; 
+        this.arrInputCodesHiddenQuestions = [];
         this.selectBox = options.selectBox || [];
 
-        addEvent(document, 'askiaShowQuestion', 
+        addEvent(document, 'askiaShowQuestion',
                  (function (passedInElement) {
             return function (data) {
                 var indexInputCode = passedInElement.arrInputCodesHiddenQuestions.indexOf(data.detail.question.inputCode);
@@ -1115,7 +1121,7 @@
                 debounceStepByStep(passedInElement);
             };
         }(this)));
-        addEvent(document, 'askiaHideQuestion', 
+        addEvent(document, 'askiaHideQuestion',
                  (function (passedInElement) {
             return function (data) {
                 var indexInputCode = passedInElement.arrInputCodesHiddenQuestions.indexOf(data.detail.question.inputCode);
@@ -1137,64 +1143,73 @@
         var inputDates = document.querySelectorAll('#adc_' + this.instanceId + ' .date input[type="text"]');
         var dateInputDK = document.querySelectorAll('#adc_' + this.instanceId + ' .date .DK input[type="checkbox"]');
 
+        var otherElems = document.querySelectorAll('#adc_' + this.instanceId + ' .otherText');
+        for ( i = 0; i < otherElems.length; i++ ) {
+          if (!otherElems[i].parentNode.parentNode.classList.contains('selected')) {
+            otherElems[i].style.display = "none";
+          } else {
+            otherElems[i].style.display = "block";
+          }
+        }
+
         if (document.getElementById('adc_' + this.instanceId).parentElement.nodeName === "TD") document.getElementById('adc_' + this.instanceId).parentElement.style.maxWidth = '1px';
 
         // Change event on input radio
         for (var i = 0; i < radios.length; i++) {
-            addEvent(radios[i], 'change', 
+            addEvent(radios[i], 'change',
                      (function (passedInElement) {
                 return function (e) {
-                    onChange(e, passedInElement); 
+                    onChange(e, passedInElement);
                 };
             }(this)));
         }
 
         // Change event on input checkbox
         for (var j = 0; j < checkboxes.length; j++) {
-            addEvent(checkboxes[j], 'change', 
+            addEvent(checkboxes[j], 'change',
                      (function (passedInElement) {
                 return function (e) {
-                    onChange(e, passedInElement); 
+                    onChange(e, passedInElement);
                 };
             }(this)));
         }
 
         // Change event on input DK checkbox for numerical variable
         for (var j1 = 0; j1 < numInputDK.length; j1++) {
-            addEvent(numInputDK[j1], 'change', 
+            addEvent(numInputDK[j1], 'change',
                      (function (passedInElement) {
                 return function (e) {
-                    onNumericInputDK(e, passedInElement); 
+                    onNumericInputDK(e, passedInElement);
                 };
             }(this)));
         }
 
         // Change event on input DK checkbox for open variable
         for (var j2 = 0; j2 < openInputDK.length; j2++) {
-            addEvent(openInputDK[j2], 'change', 
+            addEvent(openInputDK[j2], 'change',
                      (function (passedInElement) {
                 return function (e) {
-                    onOpenInputDK(e, passedInElement); 
+                    onOpenInputDK(e, passedInElement);
                 };
             }(this)));
         }
 
         // Change event on input DK checkbox for date variable
         for (var j3 = 0; j3 < dateInputDK.length; j3++) {
-            addEvent(dateInputDK[j3], 'change', 
+            addEvent(dateInputDK[j3], 'change',
                      (function (passedInElement) {
                 return function (e) {
-                    onDateInputDK(e, passedInElement); 
+                    onDateInputDK(e, passedInElement);
                 };
             }(this)));
         }
 
         // Input event (live sum) on input number
         for (var k = 0; k < inputNumbers.length; k++) {
-            addEvent(inputNumbers[k], 'input', 
+            addEvent(inputNumbers[k], 'input',
                      (function (passedInElement) {
                 return function (e) {
-                    onInputNumbers(e, passedInElement); 
+                    onInputNumbers(e, passedInElement);
                 };
             }(this)));
             if (k === (inputNumbers.length - 1)) {
@@ -1206,10 +1221,10 @@
 
         // Change event (live sum) on input range
         for (var l = 0; l < inputRanges.length; l++) {
-            addEvent(inputRanges[l], 'change', 
+            addEvent(inputRanges[l], 'change',
                      (function (passedInElement) {
                 return function (e) {
-                    onInputRanges(e, passedInElement); 
+                    onInputRanges(e, passedInElement);
                 };
             }(this)));
             document.querySelector('#adc_' + this.instanceId + ' #' + inputRanges[l].id + ' + .preBar').style.width = widthRange(inputRanges[l]) + 'px';
@@ -1217,10 +1232,10 @@
 
         // Input event (live sum) on input range
         for (var l1 = 0; l1 < inputRanges.length; l1++) {
-            addEvent(inputRanges[l1], 'input', 
+            addEvent(inputRanges[l1], 'input',
                      (function (passedInElement) {
                 return function (e) {
-                    onInputRanges(e, passedInElement); 
+                    onInputRanges(e, passedInElement);
                 };
             }(this)));
         }
@@ -1236,20 +1251,20 @@
 
         // Input event on open ended
         for (var k1 = 0; k1 < inputOpens.length; k1++) {
-            addEvent(inputOpens[k1], 'input', 
+            addEvent(inputOpens[k1], 'input',
                      (function (passedInElement) {
                 return function (e) {
-                    onInputOpens(e, passedInElement); 
+                    onInputOpens(e, passedInElement);
                 };
             }(this)));
         }
 
         // Input event on date time
         for (var k2 = 0; k2 < inputDates.length; k2++) {
-            addEvent(inputDates[k2], 'input', 
+            addEvent(inputDates[k2], 'input',
                      (function (passedInElement) {
                 return function (e) {
-                    onInputDates(e, passedInElement); 
+                    onInputDates(e, passedInElement);
                 };
             }(this)));
         }
@@ -1259,14 +1274,14 @@
             if (this.rankingBox[i1]) {
                 var inputElt = document.querySelectorAll(".select_"+ this.instanceId + "_" + (i1+1));
                 for(var j1 = 0; j1 < inputElt.length; j1++) {
-                    addEvent(inputElt[j1], 'change', 
+                    addEvent(inputElt[j1], 'change',
                              (function (passedInElement) {
                         return function (e) {
-                            updateComboBox(e, passedInElement); 
+                            updateComboBox(e, passedInElement);
                         };
                     }(this)));
                 }
-            }   
+            }
         }
 
         // Manage select combo box
@@ -1274,14 +1289,14 @@
             if (this.selectBox[i2]) {
                 var selectElt = document.querySelectorAll(".select_"+ this.instanceId + "_" + (i2+1));
                 for(var j2 = 0; j2 < selectElt.length; j2++) {
-                    addEvent(selectElt[j2], 'change', 
+                    addEvent(selectElt[j2], 'change',
                              (function (passedInElement) {
                         return function (e) {
-                            onSelects(e, passedInElement); 
+                            onSelects(e, passedInElement);
                         };
                     }(this)));
                 }
-            }   
+            }
         }
 
         // If currency used for numerical variable
@@ -1314,7 +1329,7 @@
 
         var debounceStepByStep = debounce(stepByStepColumns, 300);
         debounceStepByStep(this);
-        
+
         var debounceMakeResponsesSameHeight = debounce(makeResponsesSameHeight, 300);
         debounceMakeResponsesSameHeight(this);
 

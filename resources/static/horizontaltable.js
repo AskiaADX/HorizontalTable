@@ -518,7 +518,6 @@
    * @param {Object} event Change event of the input radio and checkbox
    */
     function onChange (event, that) {
-
         var el = event.target || event.srcElement;
         var el2 = el.nextElementSibling.nextElementSibling.children[0];
 
@@ -540,6 +539,13 @@
                 if (that.autoSubmit) debounceAutoSubmitForm(that);
             }
         }
+        if (window.askia &&
+                  window.arrLiveRoutingShortcut &&
+                  window.arrLiveRoutingShortcut.length > 0 &&
+                  window.arrLiveRoutingShortcut.indexOf(that.currentQuestion) >= 0) {
+          askia.triggerAnswer();
+        }
+
     }
 
     /**
@@ -760,6 +766,17 @@
         debounceStepByStep(that);
         var debounceAutoSubmitForm = debounce(autoSubmitForm, 300);
         if (that.autoSubmit) debounceAutoSubmitForm(that);
+    }
+
+    function onInputSemiOpens(event, that){
+      console.log(that);
+      var el = event.target || event.srcElement;
+      var shortcut = that.questions[parseInt(el.getAttribute('data-class').split('_')[1], 10) - 1] || '';
+      triggerRouting(shortcut);
+      var debounceStepByStep = debounce(stepByStepColumns, 300);
+      debounceStepByStep(that);
+      var debounceAutoSubmitForm = debounce(autoSubmitForm, 300);
+      if (that.autoSubmit) debounceAutoSubmitForm(that);
     }
 
     /**
@@ -1142,13 +1159,13 @@
         var openInputDK = document.querySelectorAll('#adc_' + this.instanceId + ' .open .DK input[type="checkbox"]');
         var inputDates = document.querySelectorAll('#adc_' + this.instanceId + ' .date input[type="text"]');
         var dateInputDK = document.querySelectorAll('#adc_' + this.instanceId + ' .date .DK input[type="checkbox"]');
+        var inputSemiOpens = document.querySelectorAll('#adc_' + this.instanceId + ' .otherText');
 
-        var otherElems = document.querySelectorAll('#adc_' + this.instanceId + ' .otherText');
-        for ( i = 0; i < otherElems.length; i++ ) {
-          if (!otherElems[i].parentNode.parentNode.classList.contains('selected')) {
-            otherElems[i].style.display = "none";
+        for ( i = 0; i < inputSemiOpens.length; i++ ) {
+          if (!inputSemiOpens[i].parentNode.parentNode.classList.contains('selected')) {
+            inputSemiOpens[i].style.display = "none";
           } else {
-            otherElems[i].style.display = "block";
+            inputSemiOpens[i].style.display = "block";
           }
         }
 
@@ -1267,6 +1284,16 @@
                     onInputDates(e, passedInElement);
                 };
             }(this)));
+        }
+
+        // Input event on semi-opens
+        for (var k3 = 0; k3 < inputSemiOpens.length; k3++) {
+          addEvent(inputSemiOpens[k3], 'input',
+          (function (passedInElement) {
+            return function (e) {
+              onInputSemiOpens(e, passedInElement);
+            };
+          }(this)));
         }
 
         // Manage ranking combo box

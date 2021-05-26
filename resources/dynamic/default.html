@@ -59,7 +59,8 @@ Next i3
 %}
 
 <div id="adc_{%= CurrentADC.InstanceId %}" class="horizontaltable">
-    <div style="order:0;" class="horizontaltable-cell horizontaltable-cell--head horizontaltable-firstcolumn topleft">&nbsp;</div>
+
+    <div style="order:0;" class="horizontaltable-cell horizontaltable-cell-head horizontaltable-firstcolumn topleft">&nbsp;</div>
     {% For i2 = 1 To rowNumber
     	row = CurrentADC.PropQuestion("questionRow" + i2)
             If ((row.Id = DK) and (i2 = 1)) Then
@@ -227,7 +228,10 @@ Next i3
                             {% If (CurrentADC.PropValue("openUse") = "1") Then %}
                             <textarea id="askia-input-open{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}" aria-label="Text area" data-class="shortcut_{%= j2 %}" class="inputopen" name="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputName() %}"{%:= attrReadOnly %}{%:= attrMaxOpen %}{%:= attrPlaceholder %}>{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputValue() %}</textarea>
                             {% Else %}
-                            <input type="{%= On(CurrentADC.PropValue("openUse") = "2","email",On(CurrentADC.PropValue("openUse") = "3","url","text")) %}" aria-label="Open" autocomplete="off" data-class="shortcut_{%= j2 %}" class="inputopen" id="askia-input-open{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}" name="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputName() %}" value="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputValue() %}"{%:= attrReadOnly %}{%:= attrMaxOpen %}{%:= attrPlaceholder %}>
+                            <input type="{%= On(CurrentADC.PropValue("openUse") = "2","email",On(CurrentADC.PropValue("openUse") = "3","url","text")) %}" aria-label="Open" autocomplete="off"
+                            data-class="shortcut_{%= j2 %}" class="inputopen" id="askia-input-open{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}"
+                            name="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputName() %}"
+                            value="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputValue() %}"{%:= attrReadOnly %}{%:= attrMaxOpen %}{%:= attrPlaceholder %}>
                             {% EndIf %}
                         </div>
                         {% If (CurrentADC.PropValue("openDkButton") = "1" and row.IsAllowDK) Then %}
@@ -265,13 +269,16 @@ Next i3
                             Dim otherResponse = row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]]
                             %}
                             <label class="response-container {%:= attrSelected %} resp{%:= j4 %}_{%:= j2 %}">
-                                <input type="radio" id="askia-input{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].InputValue() %}" data-class="shortcut_{%= j2 %}" name="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].InputName() %}" value="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].InputValue() %}" {%:= attrChecked %}>
+                                <input type="radio" id="askia-input{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].InputValue() %}"
+                                 data-class="shortcut_{%= j2 %}" name="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].InputName() %}"
+                                 value="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].InputValue() %}" {%:= attrChecked %}>
+
                                 <label for="askia-input{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].InputValue() %}" class="askia-radio"><span hidden>Radio</span></label>
 
                                 {% IF otherResponse.isOpen Then %}
                                   <div style="overflow:hidden">
-                                    <input type="text" aria-label="Other" class="otherText askia-question-{%= otherResponse.OpenQuestion.InputCode %}"
-                                    id="askia-input{%= otherResponse.OpenQuestion.InputName() %}" name="{%= otherResponse.OpenQuestion.InputName() %}"
+                                    <input type="text" aria-label="Other" class="otherText" data-class="shortcut_{%= j4 %}"
+                                    id="askia-input{%= otherResponse.OpenQuestion.InputCode %}" name="{%= otherResponse.OpenQuestion.InputName() %}"
                                     value="{%= otherResponse.OpenQuestion.inputValue() %}" {%:= attrPlaceholder %} autocomplete="off">
                                   </div>
                                 {% EndIf %}

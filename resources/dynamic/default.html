@@ -67,11 +67,11 @@ Next i3
             EndIf
         	foot = On(i2 = rowNumber," horizontaltable-cell--foot","")
     		classQuestionCaption = On(((((row.Type = "single") and (CurrentADC.PropValue("rowAsComboBox" + i2) <> "1") and (CurrentADC.PropValue("rowAsComboBox" + i2) <> "2")) Or (row.Type = "multiple")) and (CurrentADC.PropValue("responsesDirection") = "1") and (CurrentADC.PropValue("respOnHeader") = "1") )," class=\"questioncaption\"","")
-    %}<div style="order:{%:= i2 %};" class="horizontaltable-cell horizontaltable-firstcolumn{%= foot %}"><div{%:= classQuestionCaption %}>{%= row.LongCaption %}
+    %}<div style="order:{%:= i2 %};" class="horizontaltable-cell horizontaltable-firstcolumn{%= foot %}"><div{%:= classQuestionCaption %}>{%:= row.LongCaption %}
     {% If (row.Type = "numeric") Then %}
     	<br /><br />
         <span class="sum">
-            <span class="caption_{%= CurrentADC.InstanceId %}_{%= i2 %}">{%= totalCaption %}</span>
+            <span class="caption_{%= CurrentADC.InstanceId %}_{%= i2 %}">{%:= totalCaption %}</span>
             <span class="sum_{%= CurrentADC.InstanceId %}_{%= i2 %} resultSum">
             <span class="prefix_{%= CurrentADC.InstanceId %}_{%= i2 %}">{%= CurrentADC.PropValue("numBoxPrefix" + i2) %}</span>
             <span class="result_{%= CurrentADC.InstanceId %}_{%= i2 %}">0</span>
@@ -95,10 +95,10 @@ Next i3
         <label class="header-response-container" data-target="resp{%:= i5 %}_{%:= i2 %}">
             <label>
                 {% If ((row.Responses[arrResponsesOnIteration[i5]].ResourceURL <> "") and (CurrentADC.PropValue("responsesRow") <> "0")) Then%}
-                <img src="{%= row.Responses[arrResponsesOnIteration[i5]].ResourceURL %}" alt="{%= row.Responses[arrResponsesOnIteration[i5]].Caption %}">
+                <img src="{%= row.Responses[arrResponsesOnIteration[i5]].ResourceURL %}" alt="{%:= row.Responses[arrResponsesOnIteration[i5]].Caption %}">
                 {% EndIf %}
                 {% If ((CurrentADC.PropValue("responsesRow") <> "1") or (row.Responses[arrResponsesOnIteration[i5]].ResourceURL = "")) Then %}
-                <span class="caption">{%= row.Responses[arrResponsesOnIteration[i5]].Caption %}</span>
+                <span class="caption">{%:= row.Responses[arrResponsesOnIteration[i5]].Caption %}</span>
                 {% EndIf %}
             </label>
         </label>{% Next i5 %}
@@ -114,10 +114,10 @@ Next i3
 				<div style="order:{%:= j2 %};" class="horizontaltable-cell horizontaltable-cell--head" data-tr="tr{%:= j1 - 1 %}" {%:= imgZoom %}>
                   <div {%:= paddingZoom %}>
                     {% If ((loopQuestion.AvailableAnswers[j1].ResourceURL <> "") and (CurrentADC.PropValue("iterationRow") <> "0")) Then %}
-                    <img src="{%= loopQuestion.AvailableAnswers[j1].ResourceURL %}" class="image" alt="{%= loopQuestion.AvailableAnswers[j1].Caption %}">
+                    <img src="{%= loopQuestion.AvailableAnswers[j1].ResourceURL %}" class="image" alt="{%:= loopQuestion.AvailableAnswers[j1].Caption %}">
                       {% If (CurrentADC.PropValue("imgZoomColumn") = "1") Then %}<a href="{%= loopQuestion.AvailableAnswers[j1].ResourceURL %}" target="_blank" data-simplbox="imgZoom_{%= CurrentADC.InstanceId %}_{%= j1 %}"><div class="imgZoom"></div></a>{% EndIf %}
                     {% EndIf %}
-                    {% If ((CurrentADC.PropValue("iterationRow") <> "1") or (loopQuestion.AvailableAnswers[j1].ResourceURL = "")) Then %}<span class="caption">{%= loopQuestion.AvailableAnswers[j1].Caption %}</span>{% EndIf %}
+                    {% If ((CurrentADC.PropValue("iterationRow") <> "1") or (loopQuestion.AvailableAnswers[j1].ResourceURL = "")) Then %}<span class="caption">{%:= loopQuestion.AvailableAnswers[j1].Caption %}</span>{% EndIf %}
                   </div>
                 </div>
             {% EndIf
@@ -130,7 +130,7 @@ Next i3
                 If (row.Type = "multiple") Then %}
 				<div style="order:{%:= j2 %};" class="horizontaltable-cell{%= foot %} closed multiple {%:= oddeven %}" data-tr="tr{%:= j1 - 1 %}" data-class="inputcode_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
                     <div class="question-container askia-question-{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
-                        <div class="question-label">{%= row.LongCaption %}</div>
+                        <div class="question-label">{%:= row.LongCaption %}</div>
                         <div class="responses-container">
                             {%
                             counterHeader = 1
@@ -152,10 +152,10 @@ Next i3
                                 <label for="askia-input{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j3]].InputValue() %}" class="askia-checkbox"><span hidden>Checkbox</span></label>
                                 <label for="askia-input{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j3]].InputValue() %}" class="content">
                                     {% If ((row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j3]].ResourceURL <> "") and (CurrentADC.PropValue("responsesRow") <> "0")) Then %}
-                                    <img src="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j3]].ResourceURL %}" alt="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j3]].Caption %}">
+                                    <img src="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j3]].ResourceURL %}" alt="{%:= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j3]].Caption %}">
                                     {% EndIf %}
                                     {% If ((CurrentADC.PropValue("responsesRow") <> "1") or (row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j3]].ResourceURL = "")) Then %}
-                                    <span class="caption">{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j3]].Caption %}</span>
+                                    <span class="caption">{%:= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j3]].Caption %}</span>
                                     {% EndIf %}
                                 </label>
                             </label>
@@ -177,7 +177,7 @@ Next i3
                     step = On(CurrentADC.PropValue("step") <> "", " step=\"" + CurrentADC.PropValue("step").Replace(",",".") + "\"", "") %}
     				<div style="order:{%:= j2 %};" class="horizontaltable-cell{%= foot %} numeric {%:= oddeven %}" data-tr="tr{%:= j1 - 1 %}" data-class="inputcode_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
                         <div class="question-container askia-question-{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
-                          <div class="question-label">{%= row.LongCaption %}</div>
+                          <div class="question-label">{%:= row.LongCaption %}</div>
                           <div class="responses-container">
                             <span class="prefix">{%= CurrentADC.PropValue("numBoxPrefix" + j2) %}</span>
                               <input type="number" id="askia-input-number{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}" aria-label="Number" autocomplete="off" data-class="shortcut_{%= j2 %}" class="input_{%= CurrentADC.InstanceId %}_{%= j2 %}" name="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputName() %}" value="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputValue() %}"{%:= minVal %}{%:= maxVal %}{%:= step %}{%:= attrReadOnly %}>
@@ -198,12 +198,12 @@ Next i3
                               <input type="checkbox" id="askia-input-number_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_-1" data-class="shortcut_{%= j2 %}" class="dkbutton" name="M{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %} -1" {%:= attrChecked %}>
                               <label for="askia-input-number_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_-1" class="askia-checkbox"><span hidden>Checkbox</span></label>
                               <label for="askia-input-number_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_-1" class="askia-response-label">
-                                  <span class="caption">{%= CurrentADC.PropValue("numDkCaption") %}</span>
+                                  <span class="caption">{%:= CurrentADC.PropValue("numDkCaption") %}</span>
                               </label>
                           </label>
                           {% EndIf %}
                           <div class="sum-container sum">
-                            <span class="caption_{%= CurrentADC.InstanceId %}_{%= j2 %}">{%= totalCaption %}</span>
+                            <span class="caption_{%= CurrentADC.InstanceId %}_{%= j2 %}">{%:= totalCaption %}</span>
                             <span class="sum_{%= CurrentADC.InstanceId %}_{%= j2 %} resultSum">
                               <span class="prefix_{%= CurrentADC.InstanceId %}_{%= j2 %}">{%= CurrentADC.PropValue("numBoxPrefix" + j2) %}</span>
                               <span class="result_{%= CurrentADC.InstanceId %}_{%= j2 %}">0</span>
@@ -222,7 +222,7 @@ Next i3
 				attrMaxOpen  = On(maxValueOpen <> DK AND maxValueOpen > 0, " maxLength=\"" + maxValueOpen + "\"", "") %}
     			<div style="order:{%:= j2 %};" class="horizontaltable-cell{%= foot %} open {%:= oddeven %}" data-tr="tr{%:= j1 - 1 %}" data-class="inputcode_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
                     <div class="question-container askia-question-{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
-                        <div class="question-label">{%= row.LongCaption %}</div>
+                        <div class="question-label">{%:= row.LongCaption %}</div>
                         <div class="responses-container">
                             {% If (CurrentADC.PropValue("openUse") = "1") Then %}
                             <textarea id="askia-input-open{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}" aria-label="Text area" data-class="shortcut_{%= j2 %}" class="inputopen" name="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputName() %}"{%:= attrReadOnly %}{%:= attrMaxOpen %}{%:= attrPlaceholder %}>{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputValue() %}</textarea>
@@ -236,7 +236,7 @@ Next i3
                             <input type="checkbox" id="askia-input-open_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_-1" data-class="shortcut_{%= j2 %}" class="dkbutton" name="M{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %} -1" {%:= attrChecked %}>
                             <label for="askia-input-open_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_-1" class="askia-checkbox"><span hidden>Checkbox</span></label>
                             <label for="askia-input-open_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_-1" class="askia-response-label">
-                                <span class="caption">{%= CurrentADC.PropValue("openDkCaption") %}</span>
+                                <span class="caption">{%:= CurrentADC.PropValue("openDkCaption") %}</span>
                             </label>
                         </label>
                         {% EndIf %}
@@ -246,7 +246,7 @@ Next i3
 				If ((row.Type = "single") and (CurrentADC.PropValue("rowAsComboBox" + j2) <> "1") and (CurrentADC.PropValue("rowAsComboBox" + j2) <> "2")) Then %}
     			<div style="order:{%:= j2 %};" class="horizontaltable-cell{%= foot %} closed single {%:= oddeven %}" data-tr="tr{%:= j1 - 1 %}" data-class="inputcode_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
                     <div class="question-container askia-question-{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
-                        <div class="question-label">{%= row.LongCaption %}</div>
+                        <div class="question-label">{%:= row.LongCaption %}</div>
                         <div class="responses-container">
                             {%
                             counterHeader = 1
@@ -267,10 +267,10 @@ Next i3
                                 <label for="askia-input{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].InputValue() %}" class="askia-radio"><span hidden>Radio</span></label>
                                 <label for="askia-input{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].InputValue() %}" class="content">
                                     {% If ((row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].ResourceURL <> "") and (CurrentADC.PropValue("responsesRow") <> "0")) Then %}
-                                    <img src="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].ResourceURL %}" alt="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].Caption %}">
+                                    <img src="{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].ResourceURL %}" alt="{%:= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].Caption %}">
                                     {% EndIf %}
                                     {% If ((CurrentADC.PropValue("responsesRow") <> "1") or (row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].ResourceURL = "")) Then %}
-                                    <span class="caption">{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].Caption %}</span>
+                                    <span class="caption">{%:= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].Caption %}</span>
                                     {% EndIf %}
                                 </label>
                             </label>
@@ -286,13 +286,13 @@ Next i3
 				attrSelected = On(row.Iteration(loopQuestion.AvailableAnswers[j1].Index).HasDK or row.Iteration(loopQuestion.AvailableAnswers[j1].Index).HasNA, " selected=\"selected\"", "") %}
     			<div style="order:{%:= j2 %};" class="horizontaltable-cell{%= foot %} select {%:= oddeven %}" data-tr="tr{%:= j1 - 1 %}" data-class="inputcode_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
                     <div class="question-container askia-question-{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
-                        <div class="question-label">{%= row.LongCaption %}</div>
+                        <div class="question-label">{%:= row.LongCaption %}</div>
                         <div class="responses-container">
                             <select id="askia-input-select{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}" aria-label="Select" data-class="shortcut_{%= j2 %}" class="select_{%= CurrentADC.InstanceId %}_{%= j2 %}" name="{%:= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputName() %}">
                                 <option value="0" disabled="disabled"{%:= attrSelected %}>{%:= CurrentADC.PropValue("firstOptionCombo" + j2) %}</option>
                                 {% For j5=1 to row.AvailableResponses.Count
     							attrSelected = On(row.Iteration(loopQuestion.AvailableAnswers[j1].Index).AvailableResponses[j5].IsSelected, " selected=\"selected\"", "") %}
-                                <option{%:= attrSelected %} value="{%:= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).AvailableResponses[j5].InputValue() %}">{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).AvailableResponses[j5].Caption %}</option>
+                                <option{%:= attrSelected %} value="{%:= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).AvailableResponses[j5].InputValue() %}">{%:= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).AvailableResponses[j5].Caption %}</option>
                                 {% Next j5 %}
                             </select>
                         </div>
@@ -304,7 +304,7 @@ Next i3
 				attrDisabled = On(row.Iteration(loopQuestion.AvailableAnswers[j1].Index).HasDK and row.Iteration(loopQuestion.AvailableAnswers[j1].Index).HasAnswered and CurrentADC.PropValue("dateDkButton") = "1", " disabled=\"disabled\"", "") %}
     			<div style="order:{%:= j2 %};" class="horizontaltable-cell{%= foot %} date {%:= oddeven %}" data-tr="tr{%:= j1 - 1 %}" data-class="inputcode_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
                     <div class="question-container askia-question-{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}">
-                        <div class="question-label">{%= row.LongCaption %}</div>
+                        <div class="question-label">{%:= row.LongCaption %}</div>
                         <div class="responses-container">
                             {% If (Not(row.IsTimeOnly)) Then %}
                             <div class="RLDatePicker">
@@ -333,7 +333,7 @@ Next i3
                                 <input type="checkbox" id="askia-input-date_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_-1" data-class="shortcut_{%= j2 %}" class="dkbutton" name="M{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %} -1" {%:= attrChecked %}>
                                 <label for="askia-input-date_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_-1" class="askia-checkbox"><span hidden>Checkbox</span></label>
                                 <label for="askia-input-date_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_-1" class="askia-response-label">
-                                    <span class="caption">{%= CurrentADC.PropValue("dateDkCaption") %}</span>
+                                    <span class="caption">{%:= CurrentADC.PropValue("dateDkCaption") %}</span>
                                 </label>
                             </label>
                             {% EndIf %}

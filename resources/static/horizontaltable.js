@@ -373,6 +373,7 @@
    * @param {Object} that HorizontalTable object, same as options
    */
     function stepByStepColumns (that) {
+
         var maindiv = document.getElementById('adc_' + that.instanceId);
         var divs;
         var lastDataFound = 0;
@@ -396,6 +397,7 @@
                 } else if (hasClass(divs[j],'select') && (checkAnswersSelect(divs[j]) || (that.arrInputCodesHiddenQuestions.indexOf(parseInt(divs[j].getAttribute('data-class').split('_')[1], 10)) >= 0)) ) {
                     nbDataFound = nbDataFound + 1;
                 } else if (hasClass(divs[j],'closed') && (checkAnswersClosed(divs[j]) || (that.arrInputCodesHiddenQuestions.indexOf(parseInt(divs[j].getAttribute('data-class').split('_')[1], 10)) >= 0)) ) {
+
                     nbDataFound = nbDataFound + 1;
                 }
                 if ((hasClass(divs[j],'date') || hasClass(divs[j],'open') || hasClass(divs[j],'numeric') || hasClass(divs[j],'select') || hasClass(divs[j],'closed')) && (that.arrInputCodesHiddenQuestions.indexOf(parseInt(divs[j].getAttribute('data-class').split('_')[1], 10)) >= 0) ) {
@@ -445,6 +447,7 @@
     }
 
     function autoSubmitForm (that) {
+
         var maindiv = document.getElementById('adc_' + that.instanceId);
         var divs;
         var result = true;
@@ -539,12 +542,12 @@
                 if (that.autoSubmit) debounceAutoSubmitForm(that);
             }
         }
-        if (window.askia &&
-                  window.arrLiveRoutingShortcut &&
-                  window.arrLiveRoutingShortcut.length > 0 &&
-                  window.arrLiveRoutingShortcut.indexOf(that.currentQuestion) >= 0) {
-          askia.triggerAnswer();
-        }
+        // if (window.askia &&
+        //           window.arrLiveRoutingShortcut &&
+        //           window.arrLiveRoutingShortcut.length > 0 &&
+        //           window.arrLiveRoutingShortcut.indexOf(that.currentQuestion) >= 0) {
+        //   askia.triggerAnswer();
+        // }
 
     }
 
@@ -769,10 +772,10 @@
     }
 
     function onInputSemiOpens(event, that){
-      console.log(that);
       var el = event.target || event.srcElement;
       var shortcut = that.questions[parseInt(el.getAttribute('data-class').split('_')[1], 10) - 1] || '';
       triggerRouting(shortcut);
+      askia.triggerAnswer();
       var debounceStepByStep = debounce(stepByStepColumns, 300);
       debounceStepByStep(that);
       var debounceAutoSubmitForm = debounce(autoSubmitForm, 300);
@@ -1130,6 +1133,7 @@
         addEvent(document, 'askiaShowQuestion',
                  (function (passedInElement) {
             return function (data) {
+              console.log(data);
                 var indexInputCode = passedInElement.arrInputCodesHiddenQuestions.indexOf(data.detail.question.inputCode);
                 if (indexInputCode !== -1) {
                     passedInElement.arrInputCodesHiddenQuestions.splice(indexInputCode, 1);

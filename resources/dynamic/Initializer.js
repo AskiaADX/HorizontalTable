@@ -9,6 +9,7 @@ Dim i7
 Dim i8
 Dim i9
 Dim i10
+Dim i11
 Dim varLim
 Dim row
 Dim rowQuestion
@@ -19,13 +20,29 @@ For i1 = 2 To 6
     rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
     If rowQuestion.Id <> DK Then
         rowNumber = i1
-    ElseIF rowQuestion.Type = "single" Then
-
     Else
         Break
     EndIf
 Next i1
+
+Dim rowNumber0 = rowNumber
+Dim semiOpens As Array
+
+For i11 = 2 To 6
+    rowQuestion = CurrentADC.PropQuestion("questionRow" + i11)
+    IF (rowQuestion.Type = "single") Then
+      Dim res = rowQuestion.Responses
+      Dim j
+      For j = 1 To res.Count
+        IF (res[j].isOpen = TRUE) Then
+          semiOpens.Insert(res[j].OpenQuestion.Shortcut)
+          rowNumber = rowNumber + 1
+        EndIf
+      Next j
+    EndIf
+Next i11
 %}
+
 (function () {
   var horizontaltable = new HorizontalTable({
     instanceId: {%= CurrentADC.InstanceId %},
@@ -38,27 +55,27 @@ Next i1
     headerFixed: {%= On(CurrentADC.PropValue("headerFixed") = "1", true, false)%},
     stepByStep: {%= On(CurrentADC.PropValue("stepByStep") = "yes", true, false)%},
     questions: [
-      {% For i5 = 1 To rowNumber
-    	row = CurrentADC.PropQuestion("questionRow" + i5)
-            If ((row.Id = DK) and (i5 = 1)) Then
-                row = CurrentQuestion
-            EndIf
+      {% For i5 = 1 To rowNumber0
+        	row = CurrentADC.PropQuestion("questionRow" + i5)
+          If ((row.Id = DK) and (i5 = 1)) Then
+              row = CurrentQuestion
+          EndIf
+      %}
+      {%:= On((row.Id <> DK), "'" + row.Shortcut + "'", "null")%}
+      {%= On(i5 <> rowNumber0, ",", "") %}
+      {% Next i5 %}
+
+      {%= On(semiOpens.Count > 0, ",", "")%}
+
+      {%
+        Dim k
+        For k = 1 To semiOpens.Count
       %}
 
-        {%:= On((row.Id <> DK), "'" + row.Shortcut + "'", "null") %}
+        {%:= On((TRUE), "'" + semiOpens[k] + "'", "null")%}
 
-        {% IF row.Type = "single" Then
-          Dim r = row.Responses
-          Dim x
-          For x = 1 To r.Count
-        %}
-              {%:= On((r[x].isOpen), "'" + r[x].OpenQuestion.Shortcut + "'", "")%}
-              {%= On(x <> r.Count, ",", "")%}
-        {% Next x %}
-        {% EndIf %}
-
-      {%= On(i5 <> rowNumber, ",", "")%}
-      {% Next i5 %}
+        {%= On((k <> semiOpens.Count), ",", "")%}
+      {% Next k %}
     ],
     maxLimit: [{% For i6 = 1 To rowNumber
     	row = CurrentADC.PropQuestion("questionRow" + i6)

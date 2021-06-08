@@ -266,7 +266,7 @@ Next i3
                             attrSelected = On(row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].IsSelected, "selected", "")
                             attrChecked = On(row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].IsSelected, "checked=\"checked\"", "")
                             If (arrResponsesOnIteration[j4] Has row.Iteration(loopQuestion.AvailableAnswers[j1].Index).AvailableResponses.Index) Then
-                            Dim otherResponse = row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]]
+                            Dim otherResponse = row.Iteration(loopQuestion.AvailableAnswers[j1].Index).AvailableResponses[arrResponsesOnIteration[j4]]
                             %}
                             <label class="response-container {%:= attrSelected %} resp{%:= j4 %}_{%:= j2 %}">
                                 <input type="radio" id="askia-input{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).InputCode %}_{%= row.Iteration(loopQuestion.AvailableAnswers[j1].Index).Responses[arrResponsesOnIteration[j4]].InputValue() %}"

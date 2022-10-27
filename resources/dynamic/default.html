@@ -38,24 +38,55 @@ Dim arrResponsesOnIteration = {}
 Dim foot = ""
 Dim oddeven = ""
 Dim classQuestionCaption = ""
+
 For i1 = 2 To 6
-    rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
-    If rowQuestion.Id <> DK Then
-        rowNumber = i1
+    IF (i1 <> 6) Then 'This condition check whether the 6th row question is available or not
+        IF (CurrentADC.PropValue("hasQuestion" + i1) = "yes") Then
+            rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
+            If rowQuestion.Id <> DK Then
+                rowNumber = i1
+            Else
+                Break
+            EndIf
+        EndIf
     Else
-        Break
+        IF (CurrentADC.PropValue("hasQuestion6") = "yes") Then
+            rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
+            If rowQuestion.Id <> DK Then
+                rowNumber = i1
+            Else
+                Break
+            EndIf
+        EndIf
     EndIf
 Next i1
+
 For i3 = 1 To 6
-    rowQuestion = CurrentADC.PropQuestion("questionRow" + i3)
-    If ((rowQuestion.Id = DK) and (i3 = 1)) Then
-    	rowQuestion = CurrentQuestion
-    EndIf
-    If ( (((rowQuestion.Type = "single") and (CurrentADC.PropValue("rowAsComboBox" + i3) <> "1") and (CurrentADC.PropValue("rowAsComboBox" + i3) <> "2")) Or (rowQuestion.Type = "multiple")) and (CurrentADC.PropValue("responsesDirection") = "0") ) Then
-        hasClosedQuestion = 1
-        Break
+    IF (i3 <> 6) Then 'This condition check whether the 6th row question is available or not
+        IF (CurrentADC.PropValue("hasQuestion" + i3) = "yes") Then
+            rowQuestion = CurrentADC.PropQuestion("questionRow" + i3)
+            If ((rowQuestion.Id = DK) and (i3 = 1)) Then
+            	rowQuestion = CurrentQuestion
+            EndIf
+            If ( (((rowQuestion.Type = "single") and (CurrentADC.PropValue("rowAsComboBox" + i3) <> "1") and (CurrentADC.PropValue("rowAsComboBox" + i3) <> "2")) Or (rowQuestion.Type = "multiple")) and (CurrentADC.PropValue("responsesDirection") = "0") ) Then
+                hasClosedQuestion = 1
+                Break
+            EndIf
+        EndIf
+    Else
+        IF (CurrentADC.PropValue("hasQuestion6") = "yes") Then
+            rowQuestion = CurrentADC.PropQuestion("questionRow" + i3)
+            If ((rowQuestion.Id = DK) and (i3 = 1)) Then
+              rowQuestion = CurrentQuestion
+            EndIf
+            If ( (((rowQuestion.Type = "single") and (CurrentADC.PropValue("rowAsComboBox" + i3) <> "1") and (CurrentADC.PropValue("rowAsComboBox" + i3) <> "2")) Or (rowQuestion.Type = "multiple")) and (CurrentADC.PropValue("responsesDirection") = "0") ) Then
+                hasClosedQuestion = 1
+                Break
+            EndIf
+        EndIf
     EndIf
 Next i3
+
 %}
 
 <div id="adc_{%= CurrentADC.InstanceId %}" class="horizontaltable">

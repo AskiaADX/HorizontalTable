@@ -15,14 +15,29 @@ Dim rowQuestion
 Dim ranking
 Dim selectbox
 Dim rowNumber = 1
+
 For i1 = 2 To 6
-    rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
-    If rowQuestion.Id <> DK Then
-        rowNumber = i1
+    IF (i1 <> 6) Then 'This condition check whether the 6th row question is available or not
+        IF (CurrentADC.PropValue("hasQuestion" + i1) = "yes") Then
+            rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
+            If rowQuestion.Id <> DK Then
+                rowNumber = i1
+            Else
+                Break
+            EndIf
+        EndIf
     Else
-        Break
+        IF (CurrentADC.PropValue("hasQuestion6") = "yes") Then
+            rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
+            If rowQuestion.Id <> DK Then
+                rowNumber = i1
+            Else
+                Break
+            EndIf
+        EndIf
     EndIf
 Next i1
+
 %}
 (function () {
   var horizontaltable = new HorizontalTable({
@@ -40,7 +55,7 @@ Next i1
             If ((row.Id = DK) and (i5 = 1)) Then
                 row = CurrentQuestion
             EndIf
-    %}{%:= On((row.Id <> DK), "'" + row.Shortcut + "'", "null")%}{%= On(i5 <> rowNumber, ",", "") 
+    %}{%:= On((row.Id <> DK), "'" + row.Shortcut + "'", "null")%}{%= On(i5 <> rowNumber, ",", "")
 		%}{%Next i5 %}],
     maxLimit: [{% For i6 = 1 To rowNumber
     	row = CurrentADC.PropQuestion("questionRow" + i6)
@@ -59,14 +74,14 @@ Next i1
             If ((row.Id = DK) and (i8 = 1)) Then
                 row = CurrentQuestion
             EndIf
-    %}{%:= On((row.Type = "numeric"), "'" + CurrentADC.PropValue("numBoxSuffix" + i8) + "'", "''")%}{%= On(i8 <> rowNumber, ",", "") 
+    %}{%:= On((row.Type = "numeric"), "'" + CurrentADC.PropValue("numBoxSuffix" + i8) + "'", "''")%}{%= On(i8 <> rowNumber, ",", "")
 		%}{%Next i8 %}],
     decimals: [{% For i9 = 1 To rowNumber
     	row = CurrentADC.PropQuestion("questionRow" + i9)
             If ((row.Id = DK) and (i9 = 1)) Then
                 row = CurrentQuestion
             EndIf
-    %}{%:= On((row.Type = "numeric"), row.Decimals + "", "")%}{%= On(i9 <> rowNumber, ",", "") 
+    %}{%:= On((row.Type = "numeric"), row.Decimals + "", "")%}{%= On(i9 <> rowNumber, ",", "")
 		%}{%Next i9 %}],
     selectBox: [{% For i10 = 1 To rowNumber
     	row = CurrentADC.PropQuestion("questionRow" + i10)
@@ -75,10 +90,10 @@ Next i1
             Endif
     selectbox = CurrentADC.PropValue("rowAsComboBox" + i10) %}{%= On((selectbox = "1") and (row.Type = "single"), true, false)%}{%= On(i10 <> rowNumber, ",", "") %}{% Next i10 %}]
   });
-  {% 
-	For i2 = 1 to rowNumber 
+  {%
+	For i2 = 1 to rowNumber
     	row = CurrentADC.PropQuestion("questionRow"+i2)
-    	If row.Type = "datetime" Then 
+    	If row.Type = "datetime" Then
         	If(Not(row.IsDateOnly)) Then
             	For i3 = 1 to CurrentQuestion.ParentLoop.AvailableAnswers.Count
     				row = CurrentADC.PropQuestion("questionRow"+i2)
@@ -101,7 +116,7 @@ Next i1
   {%            Next i3
         	EndIf
 			row = CurrentADC.PropQuestion("questionRow"+i2)
-			If (Not(row.IsTimeOnly)) Then 
+			If (Not(row.IsTimeOnly)) Then
 				For i4 = 1 to CurrentQuestion.ParentLoop.AvailableAnswers.Count
     				row = CurrentADC.PropQuestion("questionRow"+i2)
 					row = row.AllIterations[i4] %}

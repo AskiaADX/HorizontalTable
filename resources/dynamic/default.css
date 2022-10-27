@@ -2,14 +2,29 @@
 Dim i1
 Dim rowQuestion
 Dim rowNumber = 1
+
 For i1 = 2 To 6
-    rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
-    If rowQuestion.Id <> DK Then
-        rowNumber = i1
+    IF (i1 <> 6) Then 'This condition check whether the 6th row question is available or not
+        IF (CurrentADC.PropValue("hasQuestion" + i1) = "yes") Then
+            rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
+            If rowQuestion.Id <> DK Then
+                rowNumber = i1
+            Else
+                Break
+            EndIf
+        EndIf
     Else
-        Break
+        IF (CurrentADC.PropValue("hasQuestion6") = "yes") Then
+            rowQuestion = CurrentADC.PropQuestion("questionRow" + i1)
+            If rowQuestion.Id <> DK Then
+                rowNumber = i1
+            Else
+                Break
+            EndIf
+        EndIf
     EndIf
 Next i1
+
 Dim controlAlign
 If (CurrentADC.PropValue("controlAlign") = "center" ) Then
     controlAlign = "0 auto"
@@ -324,7 +339,7 @@ Dim othersColumnWidth = ((100 - firstColumnWidth.ToNumber() ) / CurrentQuestion.
   border-radius: {%= Theme.BorderRadius %};
 }
 #adc_{%= CurrentADC.InstanceId %} input[type=range]::-ms-fill-lower {
-  height: 8px; 
+  height: 8px;
   border: 0px solid rgb({%= Theme.NeutralDarkColor.ToRGB() %});
     -webkit-border-top-left-radius: {%= Theme.BorderRadius %};
     -webkit-border-bottom-left-radius: {%= Theme.BorderRadius %};
@@ -380,21 +395,21 @@ Dim othersColumnWidth = ((100 - firstColumnWidth.ToNumber() ) / CurrentQuestion.
 }
 #adc_{%= CurrentADC.InstanceId %} input[type="range"].selected::-moz-range-progress {
   /** Selected color */
-  background-color: rgb({%= Theme.SecondaryColor.ToRGB() %}); 
+  background-color: rgb({%= Theme.SecondaryColor.ToRGB() %});
 }
-#adc_{%= CurrentADC.InstanceId %} input[type="range"]::-moz-range-track {  
+#adc_{%= CurrentADC.InstanceId %} input[type="range"]::-moz-range-track {
   background-color: rgb({%= Theme.NeutralLightColor.ToRGB() %});
 }
 /* IE*/
 #adc_{%= CurrentADC.InstanceId %} input[type="range"]::-ms-fill-lower {
   /** Selected color */
-  background-color: rgb({%= Theme.NeutralLightColor.ToRGB() %}); 
+  background-color: rgb({%= Theme.NeutralLightColor.ToRGB() %});
 }
 #adc_{%= CurrentADC.InstanceId %} input[type="range"].selected::-ms-fill-lower {
   /** Selected color */
-  background-color: rgb({%= Theme.SecondaryColor.ToRGB() %}); 
+  background-color: rgb({%= Theme.SecondaryColor.ToRGB() %});
 }
-#adc_{%= CurrentADC.InstanceId %} input[type="range"]::-ms-fill-upper {  
+#adc_{%= CurrentADC.InstanceId %} input[type="range"]::-ms-fill-upper {
   background-color: rgb({%= Theme.NeutralLightColor.ToRGB() %});
 }
 
@@ -484,7 +499,7 @@ Dim othersColumnWidth = ((100 - firstColumnWidth.ToNumber() ) / CurrentQuestion.
     display: flex;
       {% EndIf %}
   }
-    
+
   #adc_{%= CurrentADC.InstanceId %} .closed .response-container {
       {% If ((CurrentADC.PropValue("responsiveResponsesAlignement") = "left" or CurrentADC.PropValue("responsiveResponsesAlignement") = "right") and CurrentADC.PropValue("responsiveResponsesDirection") = "1") Then %}
       text-align: {%= CurrentADC.PropValue("responsiveResponsesAlignement") %};

@@ -7,8 +7,8 @@
   <info>
     <name>HorizontalTable</name>
     <guid>c87d5116-6ff0-401d-95da-507fa83a2374</guid>
-    <version>3.1.0</version>
-    <date>2022-09-13</date>
+    <version>3.2.0</version>
+    <date>2022-10-27</date>
     <description><![CDATA[Horizontal table]]></description>
     <company>Askia</company>
     <author><![CDATA[Jerome Duparc <jeromed@askia.com>]]></author>
@@ -559,6 +559,14 @@ Format: MM/DD/YYYY]]></description>
       </property>
     </category>
     <category id="row1" name="Row 1">
+      <property xsi:type="standardProperty" id="hasQuestion1" name="1st Question Available" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[Select 'Yes' if the 1st question is available]]></description>
+        <value><![CDATA[no]]></value>
+        <options>
+          <option value="yes" text="Yes" />
+          <option value="no" text="No" />
+        </options>
+      </property>
       <property xsi:type="standardProperty" id="questionRow1" name="Question" type="question" require="false" visible="true">
         <description><![CDATA[Set the question for Row 1]]></description>
         <value></value>
@@ -590,6 +598,14 @@ Format: MM/DD/YYYY]]></description>
       </property>
     </category>
     <category id="row2" name="Row 2">
+      <property xsi:type="standardProperty" id="hasQuestion2" name="2nd Question Available" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[Select 'Yes' if the 2nd question is available]]></description>
+        <value><![CDATA[no]]></value>
+        <options>
+          <option value="yes" text="Yes" />
+          <option value="no" text="No" />
+        </options>
+      </property>
       <property xsi:type="standardProperty" id="questionRow2" name="Question" type="question" require="false" visible="true">
         <description><![CDATA[Set the question for Row 2]]></description>
         <value></value>
@@ -621,6 +637,14 @@ Format: MM/DD/YYYY]]></description>
       </property>
     </category>
     <category id="row3" name="Row 3">
+      <property xsi:type="standardProperty" id="hasQuestion3" name="3rd Question Available" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[Select 'Yes' if the 3rd question is available]]></description>
+        <value><![CDATA[no]]></value>
+        <options>
+          <option value="yes" text="Yes" />
+          <option value="no" text="No" />
+        </options>
+      </property>
       <property xsi:type="standardProperty" id="questionRow3" name="Question" type="question" require="false" visible="true">
         <description><![CDATA[Set the question for Row 3]]></description>
         <value></value>
@@ -652,6 +676,14 @@ Format: MM/DD/YYYY]]></description>
       </property>
     </category>
     <category id="row4" name="Row 4">
+      <property xsi:type="standardProperty" id="hasQuestion4" name="4th Question Available" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[Select 'Yes' if the 4th question is available]]></description>
+        <value><![CDATA[no]]></value>
+        <options>
+          <option value="yes" text="Yes" />
+          <option value="no" text="No" />
+        </options>
+      </property>
       <property xsi:type="standardProperty" id="questionRow4" name="Question" type="question" require="false" visible="true">
         <description><![CDATA[Set the question for Row 4]]></description>
         <value></value>
@@ -683,6 +715,14 @@ Format: MM/DD/YYYY]]></description>
       </property>
     </category>
     <category id="row5" name="Row 5">
+      <property xsi:type="standardProperty" id="hasQuestion5" name="5th Question Available" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[Select 'Yes' if the 5th question is available]]></description>
+        <value><![CDATA[no]]></value>
+        <options>
+          <option value="yes" text="Yes" />
+          <option value="no" text="No" />
+        </options>
+      </property>
       <property xsi:type="standardProperty" id="questionRow5" name="Question" type="question" require="false" visible="true">
         <description><![CDATA[Set the question for Row 5]]></description>
         <value></value>
@@ -714,6 +754,14 @@ Format: MM/DD/YYYY]]></description>
       </property>
     </category>
     <category id="row6" name="Row 6">
+      <property xsi:type="standardProperty" id="hasQuestion6" name="6th Question Available" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[Select 'Yes' if the 6th question is available]]></description>
+        <value><![CDATA[no]]></value>
+        <options>
+          <option value="yes" text="Yes" />
+          <option value="no" text="No" />
+        </options>
+      </property>
       <property xsi:type="standardProperty" id="questionRow6" name="Question" type="question" require="false" visible="true">
         <description><![CDATA[Set the question for Row 6]]></description>
         <value></value>
